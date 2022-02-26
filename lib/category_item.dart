@@ -9,15 +9,21 @@ class CategoryItem extends StatelessWidget {
   const CategoryItem({Key? key, required this.id, required this.title, required this.color})
       : super(key: key);
 
+  // void selectCategory(BuildContext ctx) {
+  //   Navigator.of(ctx).push(
+  //     MaterialPageRoute(
+  //       builder: (_) {
+  //         return CategoryMealsScreen(categoryId: id,categoryTitle: title);
+  //       },
+  //     ),
+  //   );
+  // }
+
   void selectCategory(BuildContext ctx) {
-    Navigator.of(ctx).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return CategoryMealsScreen(categoryId: id,categoryTitle: title);
-        },
-      ),
-    );
+    Navigator.of(ctx)
+        .pushNamed('/category-meals', arguments: {'id': id, 'title': title});
   }
+
 
   @override
   Widget build(BuildContext context) {
