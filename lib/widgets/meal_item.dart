@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:happymeals/models/meal.dart';
+import 'package:happymeals/screens/meal_detail_screen.dart';
 
 class MealItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imageUrl;
   final int duration;
@@ -10,6 +12,7 @@ class MealItem extends StatelessWidget {
 
   const MealItem({
     Key? key,
+    required this.id,
     required this.title,
     required this.imageUrl,
     required this.duration,
@@ -18,37 +21,50 @@ class MealItem extends StatelessWidget {
   }) : super(key: key);
 
   String get complexityText {
-    switch(complexity)
-    {
-      case Complexity.Simple: return 'Simple';
-      
-      case Complexity.Challenging: return 'Challenging';
+    switch (complexity) {
+      case Complexity.Simple:
+        return 'Simple';
 
-      case Complexity.Hard: return 'Hard';
+      case Complexity.Challenging:
+        return 'Challenging';
 
-      default: return 'Unknown';
+      case Complexity.Hard:
+        return 'Hard';
+
+      default:
+        return 'Unknown';
     }
   }
+
   String get affordabilityText {
-    switch(affordability)
-    {
-      case Affordability.Affordable: return 'Affordable';
-      
-      case Affordability.Pricey: return 'Pricey';
+    switch (affordability) {
+      case Affordability.Affordable:
+        return 'Affordable';
 
-      case Affordability.Luxurious: return 'Luxurious';
+      case Affordability.Pricey:
+        return 'Pricey';
 
-      default: return 'Unknown';
+      case Affordability.Luxurious:
+        return 'Luxurious';
+
+      default:
+        return 'Unknown';
     }
   }
 
-
-  void selectMeal() {}
+  void selectMeal(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      MealDetailScreen.routeName,
+      arguments: id,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: selectMeal,
+      onTap: () {
+        selectMeal(context);
+      },
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -100,21 +116,27 @@ class MealItem extends StatelessWidget {
                   Row(
                     children: [
                       const Icon(Icons.schedule),
-                      const SizedBox(width: 6,),
+                      const SizedBox(
+                        width: 6,
+                      ),
                       Text('$duration min'),
                     ],
                   ),
                   Row(
                     children: [
                       const Icon(Icons.work),
-                      const SizedBox(width: 6,),
+                      const SizedBox(
+                        width: 6,
+                      ),
                       Text(complexityText),
                     ],
                   ),
                   Row(
                     children: [
                       const Icon(Icons.money_sharp),
-                      const SizedBox(width: 6,),
+                      const SizedBox(
+                        width: 6,
+                      ),
                       Text(affordabilityText),
                     ],
                   ),
