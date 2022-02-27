@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:happymeals/models/meal.dart';
 import 'package:happymeals/widgets/meal_item.dart';
 
 import '../dummy_data.dart';
 
-class CategoryMealsScreen extends StatelessWidget {
+class CategoryMealsScreen extends StatefulWidget {
   static const routeName = '/category-meals';
-  // final String categoryId;
-  // final String categoryTitle;
-
-  // const CategoryMealsScreen({Key? key,required this.categoryId,required this.categoryTitle}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    final categoryTitle = routeArgs['title']!;
+  State<CategoryMealsScreen> createState() => _CategoryMealsScreenState();
+}
+
+class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
+  // final String categoryId;
+
+  late String categoryTitle;
+  late List<Meal> categoryMeals;
+
+  @override
+  void didChangeDependencies() {
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    categoryTitle = routeArgs['title']!;
     final categoryId = routeArgs['id'];
 
-    final categoryMeals = DUMMY_MEALS.where(
+    categoryMeals = DUMMY_MEALS.where(
       (meal) {
         return meal.categories.contains(categoryId);
       },
     ).toList();
+    super.didChangeDependencies();
+  }
 
+  void _removeMeal(String id) {
+    setState(() {
+      categoryMeals.removeWhere(
+        (meal) {
+          return meal.id == id;
+        },
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(categoryTitle),
@@ -35,6 +57,7 @@ class CategoryMealsScreen extends StatelessWidget {
             duration: categoryMeals[index].duration,
             complexity: categoryMeals[index].complexity,
             affordability: categoryMeals[index].affordability,
+            removeItem: _removeMeal,
           );
         },
         itemCount: categoryMeals.length,

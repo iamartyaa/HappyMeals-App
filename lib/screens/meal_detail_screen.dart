@@ -93,7 +93,9 @@ class MealDetailScreen extends StatelessWidget {
                             backgroundColor: Theme.of(context).accentColor,
                             child: Text(
                               '# ${index + 1}',
-                              style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           title: Text(selectedMeal.steps[index]),
@@ -107,6 +109,12 @@ class MealDetailScreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.delete),
+          onPressed: () {
+            Navigator.of(context).pop(mealId);
+          },
         ));
   }
 }
