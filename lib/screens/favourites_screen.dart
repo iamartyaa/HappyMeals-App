@@ -11,7 +11,7 @@ class FavouritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(favMeals.isEmpty){
-    return Center(
+    return const Center(
       child: Text('You Have no Favourites !'),
     );
     }
