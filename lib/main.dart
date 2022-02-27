@@ -17,35 +17,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Map<String,bool> _filter ={
+  Map<String, bool> _filter = {
     'gluten': false,
     'lactose': false,
     'vegetarian': false,
     'vegan': false,
   };
 
-  List<Meal> _availableMeals= DUMMY_MEALS;
+  List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favMeals = [];
 
-
-  void _setFilters(Map<String,bool> filterData)
-  {
+  void _setFilters(Map<String, bool> filterData) {
     setState(() {
-      _filter=filterData;
+      _filter = filterData;
       _availableMeals = DUMMY_MEALS.where((meal) {
-        if(_filter['gluten']==true && !meal.isGlutenFree)
-        {
+        if (_filter['gluten'] == true && !meal.isGlutenFree) {
           return false;
         }
-        if(_filter['lactose']==true && !meal.isLactoseFree)
-        {
+        if (_filter['lactose'] == true && !meal.isLactoseFree) {
           return false;
         }
-        if(_filter['vegan']==true && !meal.isVegan)
-        {
+        if (_filter['vegan'] == true && !meal.isVegan) {
           return false;
         }
-        if(_filter['vegetarian']==true && !meal.isVegetarian)
-        {
+        if (_filter['vegetarian'] == true && !meal.isVegetarian) {
           return false;
         }
         return true;
@@ -53,6 +48,29 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _toggleFavourite(String mealId) {
+    final existingIndex = _favMeals.indexWhere((meal) {
+      return meal.id == mealId;
+    });
+
+    if (existingIndex >= 0) {
+      setState(() {
+        _favMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favMeals.add(DUMMY_MEALS.firstWhere((meal) {
+          return meal.id == mealId;
+        }));
+      });
+    }
+  }
+
+  bool isMealFavorite(String id) {
+    return _favMeals.any((meal) {
+      return meal.id==id;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +93,13 @@ class _MyAppState extends State<MyApp> {
       //home: const CategoriesScreen(),
       //initialRoute: ,
       routes: {
-        '/': (context) => TabsScreen(),
-        //'/category-meals':(context) => CategoryMealsScreen(), 
-        CategoryMealsScreen.routeName :(context) => CategoryMealsScreen(availableMeals: _availableMeals),
-        MealDetailScreen.routeName:(context) => MealDetailScreen(), 
-        FilterScreen.routeName:(context) => FilterScreen(filters: _filter,saveFilters: _setFilters),   
+        '/': (context) => TabsScreen(favMeals: _favMeals ),
+        //'/category-meals':(context) => CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (context) =>
+            CategoryMealsScreen(availableMeals: _availableMeals),
+        MealDetailScreen.routeName: (context) => MealDetailScreen(_toggleFavourite,isMealFavorite),
+        FilterScreen.routeName: (context) =>
+            FilterScreen(filters: _filter, saveFilters: _setFilters),
       },
       // onGenerateRoute: (settings) {
       //   print(settings.arguments);
