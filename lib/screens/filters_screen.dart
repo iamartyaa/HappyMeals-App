@@ -5,8 +5,9 @@ import 'package:happymeals/widgets/main_drawer.dart';
 
 class FilterScreen extends StatefulWidget {
   static const routeName = '/filters';
-  const FilterScreen({Key? key}) : super(key: key);
-
+  final Function saveFilters;
+  final Map<String,bool> filters;
+  FilterScreen({required this.saveFilters,required this.filters});
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
@@ -18,10 +19,32 @@ class _FilterScreenState extends State<FilterScreen> {
   var _lactoseFree = false;
 
   @override
+  void initState() {
+    _glutenFree = widget.filters['gluten'] as bool;
+    _lactoseFree = widget.filters['lactose'] as bool;
+    _vegetarian = widget.filters['vegetarian'] as bool;
+    _vegan = widget.filters['vegan'] as bool;
+    super.initState();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Fiters'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  widget.saveFilters({
+                    'gluten': _glutenFree,
+                    'lactose': _lactoseFree,
+                    'vegetarian': _vegetarian,
+                    'vegan': _vegan,
+                  });
+                },
+                icon: Icon(Icons.done))
+          ],
         ),
         drawer: const MainDrawer(),
         body: Column(
