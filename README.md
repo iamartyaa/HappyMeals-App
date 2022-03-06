@@ -9,11 +9,7 @@ An app to display Meals according to different Cusines alongwith various filters
 
 ## ScreenShots
 
-<img src="Screenshot_1646584883.png" height="300em" />  <img src="Screenshot_1646584910.png" height="300em" />  <img src="Screenshot_1646584954.png" height="300em" /> <br>
----
-<img src="Screenshot_1646584970.png" height="300em" /> <br>
----
-<img src="Screenshot_1646584975.png" height="300em" />
+<img src="Screenshot_1646585533.png" height="300em" />  <img src="Screenshot_1646585570.png" height="300em" />  <img src="Screenshot_1646585589.png" height="300em" /> <img src="Screenshot_1646585606.png" height="300em" /> <img src="Screenshot_1646585615.png" height="300em" />
 
 ## Created & Maintained by
 
